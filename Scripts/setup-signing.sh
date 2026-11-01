@@ -26,7 +26,11 @@ extendedKeyUsage = codeSigning
 basicConstraints = CA:false
 CONF
 openssl req -new -x509 -key "$DIR/key.pem" -out "$DIR/cert.pem" -days 3650 -config "$DIR/cert.conf" 2>/dev/null
-openssl pkcs12 -export -out "$DIR/cert.p12" -inkey "$DIR/key.pem" -in "$DIR/cert.pem" -passout pass:rec 2>/dev/null
+# openssl 3 defaults to AES/SHA256 pkcs12 which macOS security cannot import, force the old algorithms
+PKCS_OPTS="-certpbe PBE-SHA1-3DES -keypbe PBE-SHA1-3DES -macalg sha1"
+openssl pkcs12 -help 2>&1 | grep -q -- "-legacy" && PKCS_OPTS="$PKCS_OPTS -legacy"
+# shellcheck disable=SC2086
+openssl pkcs12 -export $PKCS_OPTS -out "$DIR/cert.p12" -inkey "$DIR/key.pem" -in "$DIR/cert.pem" -passout pass:rec 2>/dev/null
 
 security import "$DIR/cert.p12" -k ~/Library/Keychains/login.keychain-db -P rec -T /usr/bin/codesign
 # user trust first, admin trust (sudo) as fallback

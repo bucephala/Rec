@@ -7,7 +7,7 @@ Requires macOS 15+. Swift only, no dependencies. ffmpeg is optional (audio mixdo
 ## Install
 
 ```bash
-git clone <repo>
+git clone https://github.com/bucephala/Rec.git
 cd Rec
 ./Scripts/install.sh
 ```

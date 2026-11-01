@@ -27,4 +27,4 @@ Package is swift-tools 6.0 with swiftLanguageModes [.v5] (needed for .macOS(.v15
 - verified: 4s real capture, kill -9 mid recording leaves a playable fragmented file, Recovery sweep on launch cleans it, SIGTERM finalizes
 - fixed a session start race (audio queue appending before startSession). startSession now runs under the lock
 - signing cert (Scripts/setup-signing.sh) not yet run, app is ad-hoc signed so TCC re-prompts after rebuilds
-- not yet pushed to GitHub, account choice pending
+- pushed to https://github.com/bucephala/Rec (public). User decided to consolidate on bucephala going forward
